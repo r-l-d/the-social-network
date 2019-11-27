@@ -44,55 +44,41 @@ app.get("/welcome", function(req, res) {
     }
 });
 
-app.post("/register", function(req, res) {
-    hash(req.body.password)
-        .then(hashedPass => {
-            const { first, last, email } = req.body;
-            db.addUser(first, last, email, hashedPass)
-                .then(({ rows }) => {
-                    req.session.userId = rows[0].id;
-                    res.json({
-                        success: true
-                    });
-                })
-                .catch(err => {
-                    console.log("error: ", err);
-                    res.json({
-                        success: false
-                    });
-                });
-        })
-        .catch(err => {
-            console.log(err);
+app.post("/register", async (req, res) => {
+    const { first, last, email, password } = req.body;
+    try {
+        let hashedPass = await hash(password);
+        let id = await db.addUser(first, last, email, hashedPass);
+        req.session.userId = id;
+        res.json({
+            success: true
         });
+    } catch (err) {
+        console.log(err);
+    }
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
     const { email, password } = req.body;
-    db.getPassword(email)
-        .then(({ rows }) => {
-            const hashPass = rows[0].password;
-            const userId = rows[0].id;
-            compare(password, hashPass)
-                .then(passCheck => {
-                    if (passCheck) {
-                        req.session.userId = userId;
-                        res.json({
-                            success: true
-                        });
-                    } else {
-                        res.json({
-                            success: false
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        })
-        .catch(err => {
-            console.log(err);
+    try {
+        let userInfo = await db.getPassword(email);
+        let passCheck = await compare(password, userInfo.rows[0].password);
+        if (passCheck) {
+            req.session.userId = userInfo.rows[0].id;
+            res.json({
+                success: true
+            });
+        } else {
+            res.json({
+                success: false
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
         });
+    }
 });
 
 app.get("*", function(req, res) {
