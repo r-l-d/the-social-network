@@ -5,6 +5,7 @@ const db = require("./utils/db");
 const { hash, compare } = require("./utils/bc");
 const cookieSession = require("cookie-session");
 module.exports = app;
+const csurf = require("csurf");
 
 app.use(compression());
 app.use(express.static("./public"));
@@ -16,6 +17,13 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
+
+app.use(csurf());
+
+app.use(function(req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -29,7 +37,6 @@ if (process.env.NODE_ENV != "production") {
 }
 
 app.get("/welcome", function(req, res) {
-    console.log("req.session.userId: ", req.session.userId);
     if (req.session.userId) {
         res.redirect("/");
     } else {
@@ -53,6 +60,34 @@ app.post("/register", function(req, res) {
                     res.json({
                         success: false
                     });
+                });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    db.getPassword(email)
+        .then(({ rows }) => {
+            const hashPass = rows[0].password;
+            const userId = rows[0].id;
+            compare(password, hashPass)
+                .then(passCheck => {
+                    if (passCheck) {
+                        req.session.userId = userId;
+                        res.json({
+                            success: true
+                        });
+                    } else {
+                        res.json({
+                            success: false
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
                 });
         })
         .catch(err => {

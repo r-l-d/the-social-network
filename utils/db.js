@@ -17,3 +17,7 @@ exports.addUser = function addUser(
         [first, last, email, password, image_url, bio]
     );
 };
+
+exports.getPassword = function getPassword(email) {
+    return db.query("SELECT password, id FROM users WHERE email=$1", [email]);
+};

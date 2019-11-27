@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
-// import Register from "./registration";
+import Logo from "./logo";
 
 let elem = <Welcome />;
 
 if (location.pathname != "/welcome") {
     elem = (
         <div>
-            <img src="/assets/logo.png" alt="logo" />
+            <Logo />
             <h1>You are logged in!</h1>
         </div>
     );
