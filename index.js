@@ -6,6 +6,29 @@ const { hash, compare } = require("./utils/bc");
 const cookieSession = require("cookie-session");
 module.exports = app;
 const csurf = require("csurf");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const s3 = require("./s3");
+const { s3Url } = require("./config");
+
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
 
 app.use(compression());
 app.use(express.static("./public"));
@@ -79,6 +102,30 @@ app.post("/login", async (req, res) => {
             success: false
         });
     }
+});
+
+app.get("/user", async (req, res) => {
+    try {
+        const { userId } = req.session;
+        let { rows } = await db.getUser(userId);
+        res.json(rows[0]);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const imageUrl = `${s3Url}${req.file.filename}`;
+    const { userId } = req.session;
+    db.addImage(imageUrl, userId)
+        .then(() => {
+            res.json({
+                imgUrl: imageUrl
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 
 app.get("*", function(req, res) {

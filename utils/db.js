@@ -21,3 +21,14 @@ exports.addUser = function addUser(
 exports.getPassword = function getPassword(email) {
     return db.query("SELECT password, id FROM users WHERE email=$1", [email]);
 };
+
+exports.getUser = function getUser(id) {
+    return db.query(
+        "SELECT first, last, image_url, bio FROM users WHERE id=$1",
+        [id]
+    );
+};
+
+exports.addImage = function addImage(url, id) {
+    return db.query("UPDATE users SET image_url=$1  WHERE id=$2", [url, id]);
+};
