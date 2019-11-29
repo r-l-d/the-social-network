@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "./axios";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 export default class BioEditor extends React.Component {
     constructor(props) {
@@ -9,6 +11,7 @@ export default class BioEditor extends React.Component {
             buttonText: "Edit Bio"
         };
         this.toggleEditing = this.toggleEditing.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
     componentDidMount() {
         console.log("props in BioEditor: ", this.props);
@@ -26,15 +29,22 @@ export default class BioEditor extends React.Component {
     }
 
     handleClick() {
+        console.log("this.state: ", this.state);
         axios
             .post("/bio", {
                 bio: this.state.bio
             })
             .then(({ data }) => {
                 this.props.refreshBio(data.bio);
-                this.setState({
-                    editingMode: false
-                });
+                this.toggleEditing();
+                this.state.bio &&
+                    this.setState({
+                        buttonText: "Edit bio"
+                    });
+                !this.state.bio &&
+                    this.setState({
+                        buttonText: "Add a bio"
+                    });
             })
             .catch(() => {
                 this.setState({
@@ -50,9 +60,17 @@ export default class BioEditor extends React.Component {
     }
 
     toggleEditing() {
-        this.setState({
-            editingMode: true
-        });
+        if (this.state.editingMode) {
+            console.log("editing mode turned off");
+            this.setState({
+                editingMode: false
+            });
+        } else {
+            console.log("editing mode turned on");
+            this.setState({
+                editingMode: true
+            });
+        }
     }
 
     render() {
@@ -67,17 +85,30 @@ export default class BioEditor extends React.Component {
                     {this.state.error && (
                         <div className="error">Oops! Something went wrong.</div>
                     )}
-                    <button onClick={e => this.handleClick(e)}>Save</button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleClick}
+                    >
+                        Save
+                    </Button>
+                    <Button variant="contained" onClick={this.toggleEditing}>
+                        Cancel
+                    </Button>
                 </div>
             );
         } else {
             return (
                 <div>
-                    <h1>Bio editor</h1>
-                    <div>{this.props.bio}</div>
-                    <button onClick={this.toggleEditing}>
+                    <Typography variant="h4">Bio editor</Typography>
+                    <Typography variant="body1">{this.props.bio}</Typography>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.toggleEditing}
+                    >
                         {this.state.buttonText}
-                    </button>
+                    </Button>
                 </div>
             );
         }

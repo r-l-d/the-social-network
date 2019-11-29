@@ -4,6 +4,7 @@ import ProfilePic from "./profile-pic";
 import Uploader from "./uploader";
 import Logo from "./logo";
 import Profile from "./profile";
+import MenuAppBar from "./appbar";
 
 export default class App extends React.Component {
     constructor() {
@@ -39,7 +40,6 @@ export default class App extends React.Component {
 
     uploadImage(imgUrl) {
         console.log("i am a method in app");
-        console.log("muffin: ", imgUrl);
         //this is how you get the modal away. Change uploaderIsVisible to the opposite
         //then set this.state.imgurl to the url that you get back
         this.setState({
@@ -58,17 +58,20 @@ export default class App extends React.Component {
         if (!this.state.first) {
             return null;
         }
+        // <MenuAppBar
+        //     toggleModal={this.toggleModal}
+        //     firstname={this.state.first}
+        //     lastname={this.state.last}
+        //     imgUrl={this.state.imgUrl}
+        // />
         return (
             <div>
-                <Logo />
-                <h1>hello from app</h1>
                 <ProfilePic
                     toggleModal={this.toggleModal}
                     firstname={this.state.first}
                     lastname={this.state.last}
                     imgUrl={this.state.imgUrl}
                 />
-
                 <Profile
                     first={this.state.first}
                     last={this.state.last}
@@ -78,7 +81,6 @@ export default class App extends React.Component {
                     toggleModal={this.toggleModal}
                     refreshBio={this.refreshBio}
                 />
-
                 {this.state.uploaderIsVisible && (
                     <Uploader
                         uploadImage={this.uploadImage}
