@@ -9,10 +9,6 @@ export default class Uploader extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    // componentDidMount() {
-    //     console.log("uploader props: ", this.props);
-    // }
-
     handleClick(e) {
         e.preventDefault();
         var fd = new FormData();
@@ -43,7 +39,7 @@ export default class Uploader extends React.Component {
                 )}
                 <a
                     href="javascript://"
-                    onClick={e => this.props.toggleModal(false)}
+                    onClick={e => this.props.toggleModal(e)}
                 >
                     X
                 </a>

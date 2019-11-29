@@ -128,6 +128,21 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         });
 });
 
+app.post("/bio", async (req, res) => {
+    try {
+        console.log("req.session:", req.session, "req.body: ", req.body);
+        const { userId } = req.session;
+        const { bio } = req.body;
+        await db.updateBio(bio, userId);
+        console.log("great success updating bio");
+        res.json({
+            bio: bio
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

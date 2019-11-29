@@ -32,3 +32,7 @@ exports.getUser = function getUser(id) {
 exports.addImage = function addImage(url, id) {
     return db.query("UPDATE users SET image_url=$1  WHERE id=$2", [url, id]);
 };
+
+exports.updateBio = function updateBio(bio, id) {
+    return db.query("UPDATE users SET bio=$1 WHERE id=$2", [bio, id]);
+};
