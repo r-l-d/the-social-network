@@ -104,11 +104,26 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.get("/user", async (req, res) => {
+app.get("/user.json", async (req, res) => {
     try {
         const { userId } = req.session;
         let { rows } = await db.getUser(userId);
         res.json(rows[0]);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.get("/api/user/:id", async (req, res) => {
+    try {
+        const loggedInUser = req.session.userId;
+        const { id } = req.params;
+        let { rows } = await db.getUser(id);
+        res.json({
+            rows: rows[0],
+            id: id,
+            loggedInUser: loggedInUser
+        });
     } catch (err) {
         console.log(err);
     }
