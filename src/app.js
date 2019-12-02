@@ -65,22 +65,23 @@ export default class App extends React.Component {
         if (!this.state.first) {
             return null;
         }
-        // <MenuAppBar
-        //     toggleModal={this.toggleModal}
-        //     firstname={this.state.first}
-        //     lastname={this.state.last}
-        //     imgUrl={this.state.imgUrl}
-        // />
         return (
             <div>
+                <MenuAppBar
+                    toggleModal={this.toggleModal}
+                    firstname={this.state.first}
+                    lastname={this.state.last}
+                    imgUrl={this.state.imgUrl}
+                />
+
                 <BrowserRouter>
                     <div>
-                        <ProfilePic
+                        {/*}<ProfilePic
                             toggleModal={this.toggleModal}
                             firstname={this.state.first}
                             lastname={this.state.last}
                             imgUrl={this.state.imgUrl}
-                        />
+                        />*/}
                         <Route
                             exact
                             path="/"
@@ -96,7 +97,16 @@ export default class App extends React.Component {
                                 />
                             )}
                         />
-                        <Route path="/user/:id" component={OtherProfile} />
+                        <Route
+                            path="/user/:id"
+                            render={props => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
                     </div>
                 </BrowserRouter>
                 {this.state.uploaderIsVisible && (

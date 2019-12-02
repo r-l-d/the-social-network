@@ -4,13 +4,18 @@ export default function ProfilePic({
     firstname,
     lastname,
     imgUrl,
-    toggleModal
+    toggleModal,
+    bigAvatar
 }) {
     //destructuring props into components
-    imgUrl = imgUrl || "/assets/logo.png";
+    imgUrl = imgUrl || "/assets/default-user-icon-11.jpg";
     return (
         <div onClick={toggleModal}>
-            <img src={imgUrl} alt={firstname + " " + lastname} />
+            <img
+                className={bigAvatar}
+                src={imgUrl}
+                alt={firstname + " " + lastname}
+            />
         </div>
     );
 }

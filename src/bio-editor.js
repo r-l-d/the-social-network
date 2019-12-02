@@ -100,7 +100,7 @@ export default class BioEditor extends React.Component {
         } else {
             return (
                 <div>
-                    <Typography variant="h4">Bio editor</Typography>
+                    <Typography variant="h4">Bio:</Typography>
                     <Typography variant="body1">{this.props.bio}</Typography>
                     <Button
                         variant="contained"

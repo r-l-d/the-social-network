@@ -1,12 +1,15 @@
 import React from "react";
 import ProfilePic from "./profile-pic";
 import BioEditor from "./bio-editor";
+import Typography from "@material-ui/core/Typography";
 
 export default function Profile(props) {
     console.log("props in profile: ", props);
     return (
         <div>
-            <h1>Profile component First: {props.first}</h1>
+            <Typography variant="h4">
+                {props.first} {props.last}
+            </Typography>
             <ProfilePic
                 first={props.first}
                 last={props.last}

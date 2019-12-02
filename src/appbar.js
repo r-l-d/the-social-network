@@ -5,13 +5,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import Switch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormGroup from "@material-ui/core/FormGroup";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import ProfilePic from "./profile-pic";
+import Avatar from "@material-ui/core/Avatar";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,10 +20,17 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         flexGrow: 1
+    },
+    bigAvatar: {
+        width: 60,
+        height: 60
+    },
+    link: {
+        underline: "none"
     }
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar(props) {
     const classes = useStyles();
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,32 +48,16 @@ export default function MenuAppBar() {
         setAnchorEl(null);
     };
 
+    console.log("props in appbar: ", props);
+
     return (
         <div className={classes.root}>
-            <FormGroup>
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={auth}
-                            onChange={handleChange}
-                            aria-label="login switch"
-                        />
-                    }
-                    label={auth ? "Logout" : "Login"}
-                />
-            </FormGroup>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        The Social Network
+                    <Typography variant="h5" className={classes.title}>
+                        <Link underline="none" color="inherit" href="/">
+                            The Social Network
+                        </Link>
                     </Typography>
                     {auth && (
                         <div>
@@ -79,11 +68,9 @@ export default function MenuAppBar() {
                                 onClick={handleMenu}
                                 color="inherit"
                             >
-                                <ProfilePic
-                                    toggleModal={this.toggleModal}
-                                    firstname={this.state.first}
-                                    lastname={this.state.last}
-                                    imgUrl={this.state.imgUrl}
+                                <Avatar
+                                    src={props.imgUrl}
+                                    alt={props.first + " " + props.last}
                                 />
                             </IconButton>
                             <Menu
@@ -101,11 +88,23 @@ export default function MenuAppBar() {
                                 open={open}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>
-                                    Profile
+                                <MenuItem>
+                                    <Link
+                                        underline="none"
+                                        color="inherit"
+                                        href="/"
+                                    >
+                                        Profile
+                                    </Link>
                                 </MenuItem>
                                 <MenuItem onClick={handleClose}>
-                                    My account
+                                    <Link
+                                        underline="none"
+                                        color="inherit"
+                                        href="/logout"
+                                    >
+                                        Log Out
+                                    </Link>
                                 </MenuItem>
                             </Menu>
                         </div>

@@ -158,6 +158,11 @@ app.post("/bio", async (req, res) => {
     }
 });
 
+app.get("/logout", function(req, res) {
+    req.session.userId = null;
+    res.redirect("/welcome");
+});
+
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
