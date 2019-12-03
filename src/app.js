@@ -7,6 +7,7 @@ import Profile from "./profile";
 import MenuAppBar from "./appbar";
 import { BrowserRouter, Route } from "react-router-dom";
 import { OtherProfile } from "./otherprofile";
+import FindPeople from "./findpeople";
 
 export default class App extends React.Component {
     constructor() {
@@ -76,12 +77,6 @@ export default class App extends React.Component {
 
                 <BrowserRouter>
                     <div>
-                        {/*}<ProfilePic
-                            toggleModal={this.toggleModal}
-                            firstname={this.state.first}
-                            lastname={this.state.last}
-                            imgUrl={this.state.imgUrl}
-                        />*/}
                         <Route
                             exact
                             path="/"
@@ -97,6 +92,7 @@ export default class App extends React.Component {
                                 />
                             )}
                         />
+                        <Route path="/users" render={() => <FindPeople />} />
                         <Route
                             path="/user/:id"
                             render={props => (

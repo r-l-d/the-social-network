@@ -36,3 +36,16 @@ exports.addImage = function addImage(url, id) {
 exports.updateBio = function updateBio(bio, id) {
     return db.query("UPDATE users SET bio=$1 WHERE id=$2", [bio, id]);
 };
+
+exports.getUsers = function getUsers(val) {
+    return db.query(
+        "SELECT first, last, id, bio, image_url FROM users WHERE first ILIKE $1 OR last ILIKE $1",
+        [val + "%"]
+    );
+};
+
+exports.newUsers = function newUsers() {
+    return db.query(
+        "SELECT first, last, id, bio, image_url FROM users ORDER BY id DESC LIMIT 3"
+    );
+};

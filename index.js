@@ -163,6 +163,21 @@ app.get("/logout", function(req, res) {
     res.redirect("/welcome");
 });
 
+app.get("/api/users/:searchQuery", async (req, res) => {
+    try {
+        console.log("req.params: ", req.params);
+        if (req.params.searchQuery) {
+            let { rows } = await db.getUsers(req.params.searchQuery);
+            res.json(rows);
+        } else {
+            let { rows } = await db.newUsers();
+            res.json(rows);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
