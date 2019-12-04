@@ -145,11 +145,9 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
 app.post("/bio", async (req, res) => {
     try {
-        console.log("req.session:", req.session, "req.body: ", req.body);
         const { userId } = req.session;
         const { bio } = req.body;
         await db.updateBio(bio, userId);
-        console.log("great success updating bio");
         res.json({
             bio: bio
         });
@@ -165,7 +163,6 @@ app.get("/logout", function(req, res) {
 
 app.get("/api/users/:query", async (req, res) => {
     try {
-        console.log("req.params: ", req.params);
         let { rows } = await db.getUsers(req.params.query);
         res.json(rows);
     } catch (err) {
@@ -174,9 +171,69 @@ app.get("/api/users/:query", async (req, res) => {
 });
 
 app.get("/api/users", async (req, res) => {
-    console.log("made it here");
-    let { rows } = await db.newUsers();
-    res.json(rows);
+    try {
+        let { rows } = await db.newUsers();
+        res.json(rows);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.get("/friendshipstatus/:id", async (req, res) => {
+    try {
+        const sender_id = req.session.userId;
+        const receiver_id = req.params.id;
+        let { rows } = await db.getFriendship(receiver_id, sender_id);
+        if (rows.length == 0) {
+            res.json({
+                buttonText: "Send Friend Request"
+            });
+        } else if (rows[0].accepted == true) {
+            res.json({
+                buttonText: "Unfriend"
+            });
+        } else if (rows[0].sender_id == sender_id) {
+            res.json({
+                buttonText: "Cancel Friend Request"
+            });
+        } else {
+            res.json({
+                buttonText: "Accept Friend Request"
+            });
+        }
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.post("/update-friendship/:id", async (req, res) => {
+    try {
+        const buttonText = req.body.buttonText;
+        if (buttonText == "Send Friend Request") {
+            const sender_id = req.session.userId;
+            const receiver_id = req.params.id;
+            await db.insertFriendship(receiver_id, sender_id);
+            res.json({
+                buttonText: "Cancel Friend Request"
+            });
+        } else if (buttonText == "Accept Friend Request") {
+            const sender_id = req.params.id;
+            const receiver_id = req.session.userId;
+            await db.acceptFriendship(receiver_id, sender_id);
+            res.json({
+                buttonText: "Unfriend"
+            });
+        } else {
+            const sender_id = req.session.userId;
+            const receiver_id = req.params.id;
+            await db.endFriendship(receiver_id, sender_id);
+            res.json({
+                buttonText: "Send Friend Request"
+            });
+        }
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 app.get("*", function(req, res) {

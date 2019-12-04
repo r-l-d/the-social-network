@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import Typography from "@material-ui/core/Typography";
+import Friendshipbutton from "./friendshipbutton";
 
 export class OtherProfile extends React.Component {
     constructor() {
@@ -38,6 +39,7 @@ export class OtherProfile extends React.Component {
                 </Typography>
                 <img src={this.state.imgUrl} />
                 <Typography variant="body1">{this.state.bio}</Typography>
+                <Friendshipbutton otherId={this.props.match.params.id} />
             </div>
         );
     }

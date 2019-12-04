@@ -49,3 +49,31 @@ exports.newUsers = function newUsers() {
         "SELECT first, last, id, bio, image_url FROM users ORDER BY id DESC LIMIT 3"
     );
 };
+
+exports.getFriendship = function getFriendship(receiver_id, sender_id) {
+    return db.query(
+        "SELECT * FROM friendships WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)",
+        [receiver_id, sender_id]
+    );
+};
+
+exports.insertFriendship = function insertFriendship(receiver_id, sender_id) {
+    return db.query(
+        "INSERT INTO friendships(receiver_id, sender_id) VALUES($1, $2)",
+        [receiver_id, sender_id]
+    );
+};
+
+exports.acceptFriendship = function acceptFriendship(receiver_id, sender_id) {
+    return db.query(
+        "UPDATE friendships SET accepted='true' WHERE receiver_id=$1 AND sender_id=$2",
+        [receiver_id, sender_id]
+    );
+};
+
+exports.endFriendship = function endFriendship(receiver_id, sender_id) {
+    return db.query(
+        "DELETE FROM friendships WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)",
+        [receiver_id, sender_id]
+    );
+};
