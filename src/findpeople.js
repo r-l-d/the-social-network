@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
+import { Link } from "react-router-dom";
 
 export default function FindPeople() {
     console.log("FindPeople is here");
     const [users, setUsers] = useState([]);
-    const [searchQuery, setQuery] = useState("");
+    const [query, setQuery] = useState("");
     useEffect(() => {
         let ignore = false;
         (async () => {
-            console.log("query: ", searchQuery);
-            const { data } = await axios.get(`/api/users/${searchQuery || ""}`);
+            console.log("query: ", query);
+            const { data } = await axios.get(`/api/users/${query}`);
             if (!ignore) {
                 console.log("users data: ", data);
                 setUsers(data);
@@ -18,7 +19,7 @@ export default function FindPeople() {
             }
         })();
         return () => (ignore = true);
-    }, [searchQuery]);
+    }, [query]);
 
     if (!users) {
         return null;
@@ -32,7 +33,9 @@ export default function FindPeople() {
                 {users.map(user => (
                     <div key={user.id}>
                         {user.first} {user.last}
-                        <img src={user.image_url} />
+                        <Link to={`/user/${user.id}`}>
+                            <img src={user.image_url} />
+                        </Link>
                     </div>
                 ))}
             </div>
