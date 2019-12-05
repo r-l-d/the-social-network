@@ -8,12 +8,20 @@ import MenuAppBar from "./appbar";
 import { BrowserRouter, Route } from "react-router-dom";
 import { OtherProfile } from "./otherprofile";
 import FindPeople from "./findpeople";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            uploaderIsVisible: false
+            uploaderIsVisible: false,
+            auth: true
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
@@ -73,6 +81,7 @@ export default class App extends React.Component {
                     firstname={this.state.first}
                     lastname={this.state.last}
                     imgUrl={this.state.imgUrl}
+                    auth={this.state.auth}
                 />
 
                 <BrowserRouter>
@@ -106,10 +115,12 @@ export default class App extends React.Component {
                     </div>
                 </BrowserRouter>
                 {this.state.uploaderIsVisible && (
-                    <Uploader
-                        uploadImage={this.uploadImage}
-                        toggleModal={this.toggleModal}
-                    />
+                    <Dialog open={open}>
+                        <Uploader
+                            uploadImage={this.uploadImage}
+                            toggleModal={this.toggleModal}
+                        />
+                    </Dialog>
                 )}
             </div>
         );

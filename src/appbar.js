@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function MenuAppBar(props) {
     const classes = useStyles();
-    const [auth, setAuth] = React.useState(true);
+    const [auth, setAuth] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -49,6 +49,7 @@ export default function MenuAppBar(props) {
     };
 
     console.log("props in appbar: ", props);
+    console.log("auth", props.auth);
 
     return (
         <div className={classes.root}>
@@ -59,7 +60,7 @@ export default function MenuAppBar(props) {
                             The Social Network
                         </Link>
                     </Typography>
-                    {auth && (
+                    {props.auth && (
                         <div>
                             <IconButton
                                 aria-label="account of current user"

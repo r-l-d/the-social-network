@@ -186,7 +186,7 @@ app.get("/friendshipstatus/:id", async (req, res) => {
         let { rows } = await db.getFriendship(receiver_id, sender_id);
         if (rows.length == 0) {
             res.json({
-                buttonText: "Send Friend Request"
+                buttonText: "Request Friend"
             });
         } else if (rows[0].accepted == true) {
             res.json({
@@ -209,7 +209,7 @@ app.get("/friendshipstatus/:id", async (req, res) => {
 app.post("/update-friendship/:id", async (req, res) => {
     try {
         const buttonText = req.body.buttonText;
-        if (buttonText == "Send Friend Request") {
+        if (buttonText == "Request Friend") {
             const sender_id = req.session.userId;
             const receiver_id = req.params.id;
             await db.insertFriendship(receiver_id, sender_id);
@@ -228,7 +228,7 @@ app.post("/update-friendship/:id", async (req, res) => {
             const receiver_id = req.params.id;
             await db.endFriendship(receiver_id, sender_id);
             res.json({
-                buttonText: "Send Friend Request"
+                buttonText: "Request Friend"
             });
         }
     } catch (err) {

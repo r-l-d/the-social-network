@@ -1,5 +1,10 @@
 import React from "react";
 import axios from "./axios";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import DialogActions from "@material-ui/core/DialogActions";
+import Input from "@material-ui/core/Input";
 
 export default class Uploader extends React.Component {
     constructor(props) {
@@ -32,26 +37,31 @@ export default class Uploader extends React.Component {
     render() {
         return (
             <div>
-                <h2>Uploader is here</h2>
-                <h6>Upload an image</h6>
+                <Typography variant="h6">Upload a profile picture</Typography>
                 {this.state.error && (
-                    <div className="error">Oops! Something went wrong.</div>
+                    <Typography className="error">
+                        Oops! Something went wrong.
+                    </Typography>
                 )}
-                <a
-                    href="javascript://"
-                    onClick={e => this.props.toggleModal(e)}
-                >
-                    X
-                </a>
-                <form>
-                    <input
-                        onChange={e => this.handleChange(e)}
-                        type="file"
-                        name="file"
-                        accept="image/*"
-                    />
-                </form>
-                <button onClick={e => this.handleClick(e)}>SUBMIT</button>
+
+                <Input
+                    onChange={e => this.handleChange(e)}
+                    type="file"
+                    name="file"
+                    accept="image/*"
+                />
+
+                <DialogActions>
+                    <Button
+                        color="primary"
+                        onClick={e => this.props.toggleModal(e)}
+                    >
+                        Cancel
+                    </Button>
+                    <Button color="primary" onClick={e => this.handleClick(e)}>
+                        SUBMIT
+                    </Button>
+                </DialogActions>
             </div>
         );
     }
