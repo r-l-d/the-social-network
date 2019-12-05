@@ -8,8 +8,6 @@ import Login from "./login";
 export default function Welcome() {
     return (
         <div>
-            <Logo />
-            <h1>THE SOCIAL NETWORK</h1>
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />

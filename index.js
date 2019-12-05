@@ -71,8 +71,8 @@ app.post("/register", async (req, res) => {
     const { first, last, email, password } = req.body;
     try {
         let hashedPass = await hash(password);
-        let id = await db.addUser(first, last, email, hashedPass);
-        req.session.userId = id;
+        let { rows } = await db.addUser(first, last, email, hashedPass);
+        req.session.userId = rows[0].id;
         res.json({
             success: true
         });

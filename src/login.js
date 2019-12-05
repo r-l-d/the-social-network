@@ -1,6 +1,10 @@
 import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import MenuAppBar from "./appbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -38,30 +42,39 @@ export default class Login extends React.Component {
     render() {
         return (
             <div>
-                <h1>Login</h1>
+                <MenuAppBar />
+                <Typography variant="h4">Login</Typography>
                 {this.state.error && (
                     <div className="error">Oops! Something went wrong.</div>
                 )}
-                <label>
-                    Email:
-                    <input
-                        name="email"
-                        placeholder="Email"
-                        type="email"
-                        onChange={e => this.handleChange(e.target)}
-                    />
-                </label>
-                <label>
-                    Password:
-                    <input
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-                        onChange={e => this.handleChange(e.target)}
-                    />
-                </label>
-                <button onClick={e => this.submit(e)}>SUBMIT</button>
-                <Link to="/">To Register</Link>
+                <TextField
+                    required
+                    name="email"
+                    label="Email"
+                    type="email"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={e => this.handleChange(e.target)}
+                />
+                <TextField
+                    name="password"
+                    label="Password"
+                    type="password"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={e => this.handleChange(e.target)}
+                />
+
+                <Button
+                    onClick={e => this.submit(e)}
+                    color="primary"
+                    variant="contained"
+                >
+                    SUBMIT
+                </Button>
+                <Button variant="contained" href="/">
+                    To Register
+                </Button>
             </div>
         );
     }

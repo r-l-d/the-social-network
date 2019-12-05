@@ -1,6 +1,11 @@
 import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import MenuAppBar from "./appbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -18,7 +23,7 @@ export default class Registration extends React.Component {
             })
             .then(({ data }) => {
                 if (data.success) {
-                    //data posted to server
+                    console.log("data posted to server");
                     location.replace("/");
                 } else {
                     this.setState({
@@ -34,6 +39,11 @@ export default class Registration extends React.Component {
     }
 
     handleChange(inputElement) {
+        console.log(
+            "input field changed: ",
+            inputElement.name,
+            inputElement.value
+        );
         this.setState({
             [inputElement.name]: inputElement.value
         });
@@ -41,50 +51,64 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div>
+                <MenuAppBar />
                 {this.state.error && (
                     <div className="error">Oops! Something went wrong.</div>
                 )}
-                <label>
-                    First name:
-                    <input
+                <form>
+                    <TextField
+                        required
+                        label="First Name"
                         name="first"
-                        placeholder="First name"
                         type="text"
+                        margin="normal"
+                        variant="outlined"
                         onChange={e => this.handleChange(e.target)}
                     />
-                </label>
-                <label>
-                    Last name:
-                    <input
+                    <TextField
+                        required
                         name="last"
-                        placeholder="Last name"
+                        label="Last name"
                         type="text"
+                        margin="normal"
+                        variant="outlined"
                         onChange={e => this.handleChange(e.target)}
                     />
-                </label>
-                <label>
-                    Email:
-                    <input
+
+                    <TextField
+                        required
                         name="email"
-                        placeholder="Email"
+                        label="Email"
                         type="email"
+                        margin="normal"
+                        variant="outlined"
                         onChange={e => this.handleChange(e.target)}
                     />
-                </label>
-                <label>
-                    Password:
-                    <input
+                    <TextField
+                        required
                         name="password"
-                        placeholder="Password"
+                        label="Password"
                         type="password"
+                        margin="normal"
+                        variant="outlined"
                         onChange={e => this.handleChange(e.target)}
                     />
-                </label>
-                <button onClick={e => this.submit(e)}>SUBMIT</button>
+
+                    <Button
+                        onClick={e => this.submit(e)}
+                        color="primary"
+                        variant="contained"
+                    >
+                        SUBMIT
+                    </Button>
+                </form>
                 <div>
-                    <h5>
-                        Already a member? <Link to="/login">Log In</Link>
-                    </h5>
+                    <Typography variant="subtitle1">
+                        Already registered?
+                    </Typography>
+                    <Link to="/login">
+                        <Button variant="contained">Log In</Button>
+                    </Link>
                 </div>
             </div>
         );
