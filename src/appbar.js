@@ -27,6 +27,12 @@ const useStyles = makeStyles(theme => ({
     },
     link: {
         underline: "none"
+    },
+    menu: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around"
     }
 }));
 
@@ -56,58 +62,72 @@ export default function MenuAppBar(props) {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h5" className={classes.title}>
-                        <Link underline="none" color="inherit" href="/">
+                        <Link color="inherit" underline="none" href="/">
                             The Social Network
                         </Link>
                     </Typography>
                     {props.auth && (
                         <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <Avatar
-                                    src={props.imgUrl}
-                                    alt={props.first + " " + props.last}
-                                />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right"
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right"
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem>
+                            <div className={classes.menu}>
+                                <Typography variant="h6">
                                     <Link
-                                        underline="none"
                                         color="inherit"
-                                        href="/"
+                                        underline="none"
+                                        href="/friends"
                                     >
-                                        Profile
+                                        Friends
                                     </Link>
-                                </MenuItem>
-                                <MenuItem onClick={handleClose}>
+                                </Typography>
+                                <Typography variant="h6">
                                     <Link
-                                        underline="none"
                                         color="inherit"
-                                        href="/logout"
+                                        underline="none"
+                                        href="/users"
                                     >
-                                        Log Out
+                                        Users
                                     </Link>
-                                </MenuItem>
-                            </Menu>
+                                </Typography>
+                                <IconButton
+                                    aria-label="account of current user"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={handleMenu}
+                                    color="inherit"
+                                >
+                                    <Avatar
+                                        src={props.imgUrl}
+                                        alt={props.first + " " + props.last}
+                                    />
+                                </IconButton>
+                                <Menu
+                                    id="menu-appbar"
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: "top",
+                                        horizontal: "right"
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: "top",
+                                        horizontal: "right"
+                                    }}
+                                    open={open}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem>
+                                        <Link
+                                            color="inherit"
+                                            underline="none"
+                                            href="/"
+                                        >
+                                            Profile
+                                        </Link>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                        <a href="/logout">Log Out</a>
+                                    </MenuItem>
+                                </Menu>
+                            </div>
                         </div>
                     )}
                 </Toolbar>

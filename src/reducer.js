@@ -25,14 +25,11 @@ export default function reducer(state = {}, action) {
     if (action.type == "REMOVE_FRIEND") {
         state = {
             ...state,
-            friends: state.friends.map(user => {
+            friends: state.friends.filter(user => {
                 if (user.id == action.id) {
-                    return {
-                        ...user,
-                        accepted: false
-                    };
+                    return false;
                 } else {
-                    return user;
+                    return true;
                 }
             })
         };

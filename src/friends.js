@@ -5,6 +5,7 @@ import {
     acceptFriendRequest,
     unfriend
 } from "./actions";
+import { Link } from "react-router-dom";
 
 export default function Friends() {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function Friends() {
             state.friends.filter(friend => friend.accepted == false)
         );
     });
+    console.log("wannabes: ", wannabes);
 
     useEffect(() => {
         dispatch(receiveFriendsWannabes());
@@ -31,27 +33,40 @@ export default function Friends() {
 
     return (
         <div>
-            <h1>Wannabes:</h1>
-            {wannabes.map(wannabe => (
-                <div key={wannabe.id}>
-                    <img src={wannabe.image_url} />
-                    <div>
-                        {wannabe.first} {wannabe.last}
-                    </div>
-                    <button
-                        onClick={e => dispatch(acceptFriendRequest(wannabe.id))}
-                    >
-                        Accept Friend Request
-                    </button>
-                    <button onClick={e => dispatch(unfriend(wannabe.id))}>
-                        Deny Friend Request
-                    </button>
+            {!!wannabes.length && (
+                <div>
+                    <h1>Wannabes:</h1>
+                    {wannabes.map(wannabe => (
+                        <div key={wannabe.id}>
+                            <Link to={`/user/${wannabe.id}`}>
+                                <img src={wannabe.image_url} />
+                            </Link>
+                            <div>
+                                {wannabe.first} {wannabe.last}
+                            </div>
+                            <button
+                                onClick={e =>
+                                    dispatch(acceptFriendRequest(wannabe.id))
+                                }
+                            >
+                                Accept Friend Request
+                            </button>
+                            <button
+                                onClick={e => dispatch(unfriend(wannabe.id))}
+                            >
+                                Deny Friend Request
+                            </button>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            )}
+
             <h1>Friends:</h1>
             {friends.map(friend => (
                 <div key={friend.id}>
-                    <img src={friend.image_url} />
+                    <Link to={`/user/${friend.id}`}>
+                        <img src={friend.image_url} />
+                    </Link>
                     <div>
                         {friend.first} {friend.last}
                     </div>
