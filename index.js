@@ -236,6 +236,16 @@ app.post("/update-friendship/:id", async (req, res) => {
     }
 });
 
+app.get("/friends-wannabes", async (req, res) => {
+    try {
+        const id = req.session.userId;
+        let { rows } = await db.getFriendsAndWannabes(id);
+        res.json(rows);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

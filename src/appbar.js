@@ -48,8 +48,8 @@ export default function MenuAppBar(props) {
         setAnchorEl(null);
     };
 
-    console.log("props in appbar: ", props);
-    console.log("auth", props.auth);
+    // console.log("props in appbar: ", props);
+    // console.log("auth", props.auth);
 
     return (
         <div className={classes.root}>
