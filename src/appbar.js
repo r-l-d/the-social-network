@@ -21,12 +21,14 @@ const useStyles = makeStyles(theme => ({
     title: {
         flexGrow: 1
     },
-    bigAvatar: {
+    avatar: {
         width: 60,
-        height: 60
+        height: 60,
+        marginLeft: 30
     },
     link: {
-        underline: "none"
+        underline: "none",
+        margin: 15
     },
     menu: {
         display: "flex",
@@ -69,7 +71,10 @@ export default function MenuAppBar(props) {
                     {props.auth && (
                         <div>
                             <div className={classes.menu}>
-                                <Typography variant="h6">
+                                <Typography
+                                    className={classes.link}
+                                    variant="h6"
+                                >
                                     <Link
                                         color="inherit"
                                         underline="none"

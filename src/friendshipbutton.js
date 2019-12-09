@@ -29,6 +29,7 @@ export default function Friendshipbutton({ otherId }) {
                 onClick={submit}
                 variant="contained"
                 color="primary"
+                size="small"
             >
                 {buttonText}
             </Button>

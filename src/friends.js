@@ -6,8 +6,37 @@ import {
     unfriend
 } from "./actions";
 import { Link } from "react-router-dom";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles({
+    card: {
+        maxWidth: 200,
+        margin: 10
+    },
+    media: {
+        height: 140
+    },
+    typography: {
+        margin: 10
+    },
+    buttonBox: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-end"
+    }
+});
 
 export default function Friends() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const friends = useSelector(state => {
         return (
@@ -33,48 +62,102 @@ export default function Friends() {
 
     return (
         <div>
-            {!!wannabes.length && (
-                <div>
-                    <h1>Wannabes:</h1>
-                    {wannabes.map(wannabe => (
-                        <div key={wannabe.id}>
-                            <Link to={`/user/${wannabe.id}`}>
-                                <img src={wannabe.image_url} />
-                            </Link>
-                            <div>
-                                {wannabe.first} {wannabe.last}
-                            </div>
-                            <button
-                                onClick={e =>
-                                    dispatch(acceptFriendRequest(wannabe.id))
-                                }
-                            >
-                                Accept Friend Request
-                            </button>
-                            <button
-                                onClick={e => dispatch(unfriend(wannabe.id))}
-                            >
-                                Deny Friend Request
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            <h1>Friends:</h1>
-            {friends.map(friend => (
-                <div key={friend.id}>
-                    <Link to={`/user/${friend.id}`}>
-                        <img src={friend.image_url} />
-                    </Link>
+            <Container maxWidth="lg">
+                {!!wannabes.length && (
                     <div>
-                        {friend.first} {friend.last}
+                        <Typography className={classes.typography} variant="h4">
+                            Wannabes
+                        </Typography>
+                        <Box display="flex" flexWrap="wrap">
+                            {wannabes.map(wannabe => (
+                                <Card key={wannabe.id} className={classes.card}>
+                                    <CardActionArea>
+                                        <Link to={`/user/${wannabe.id}`}>
+                                            <CardMedia
+                                                className={classes.media}
+                                                image={wannabe.image_url}
+                                            />
+                                        </Link>
+                                    </CardActionArea>
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5">
+                                            {wannabe.first} {wannabe.last}
+                                        </Typography>
+                                    </CardContent>
+                                    <Container>
+                                        <Box
+                                            alignItems="flex-end"
+                                            className={classes.buttonBox}
+                                        >
+                                            <CardActions>
+                                                <Button
+                                                    size="small"
+                                                    onClick={e =>
+                                                        dispatch(
+                                                            acceptFriendRequest(
+                                                                wannabe.id
+                                                            )
+                                                        )
+                                                    }
+                                                >
+                                                    Accept Friend Request
+                                                </Button>
+                                                <Button
+                                                    size="small"
+                                                    onClick={e =>
+                                                        dispatch(
+                                                            unfriend(wannabe.id)
+                                                        )
+                                                    }
+                                                >
+                                                    Deny Friend Request
+                                                </Button>
+                                            </CardActions>
+                                        </Box>
+                                    </Container>
+                                </Card>
+                            ))}
+                        </Box>
                     </div>
-                    <button onClick={e => dispatch(unfriend(friend.id))}>
-                        Unfriend
-                    </button>
+                )}
+
+                <div>
+                    <Typography className={classes.typography} variant="h4">
+                        Friends
+                    </Typography>
+                    <Box display="flex" flexWrap="wrap">
+                        {friends.map(friend => (
+                            <Card key={friend.id} className={classes.card}>
+                                <CardActionArea>
+                                    <Link to={`/user/${friend.id}`}>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image={friend.image_url}
+                                        />
+                                    </Link>
+                                </CardActionArea>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5">
+                                        {friend.first} {friend.last}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Box className={classes.buttonBox}>
+                                        <Button
+                                            size="small"
+                                            onClick={e =>
+                                                dispatch(unfriend(friend.id))
+                                            }
+                                        >
+                                            Unfriend
+                                        </Button>
+                                    </Box>
+                                </CardActions>
+                            </Card>
+                        ))}
+                    </Box>
                 </div>
-            ))}
+            </Container>
         </div>
     );
 }
