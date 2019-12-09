@@ -77,7 +77,6 @@ export default class BioEditor extends React.Component {
         if (this.state.editingMode) {
             return (
                 <div>
-                    <h1>Bio editing mode</h1>
                     <textarea
                         onChange={e => this.handleChange(e.target)}
                         defaultValue={this.props.bio}
@@ -85,22 +84,25 @@ export default class BioEditor extends React.Component {
                     {this.state.error && (
                         <div className="error">Oops! Something went wrong.</div>
                     )}
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleClick}
-                    >
-                        Save
-                    </Button>
-                    <Button variant="contained" onClick={this.toggleEditing}>
-                        Cancel
-                    </Button>
+                    <div className="button">
+                        <Button variant="outlined" onClick={this.toggleEditing}>
+                            Cancel
+                        </Button>
+                    </div>
+                    <div className="button">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleClick}
+                        >
+                            Save
+                        </Button>
+                    </div>
                 </div>
             );
         } else {
             return (
                 <div>
-                    <Typography variant="h4">Bio:</Typography>
                     <Typography variant="body1">{this.props.bio}</Typography>
                     <Button
                         variant="contained"
