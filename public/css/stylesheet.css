@@ -13,3 +13,12 @@ a:link {
 .button {
     margin: 5px 10px;
 }
+
+.flex {
+    display: flex;
+}
+
+.chat-container {
+    height: 300px;
+    overflow-y: scroll;
+}

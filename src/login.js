@@ -47,24 +47,25 @@ export default class Login extends React.Component {
                 {this.state.error && (
                     <div className="error">Oops! Something went wrong.</div>
                 )}
-                <TextField
-                    required
-                    name="email"
-                    label="Email"
-                    type="email"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={e => this.handleChange(e.target)}
-                />
-                <TextField
-                    name="password"
-                    label="Password"
-                    type="password"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={e => this.handleChange(e.target)}
-                />
-
+                <form className="flex">
+                    <TextField
+                        required
+                        name="email"
+                        label="Email"
+                        type="email"
+                        margin="normal"
+                        variant="outlined"
+                        onChange={e => this.handleChange(e.target)}
+                    />
+                    <TextField
+                        name="password"
+                        label="Password"
+                        type="password"
+                        margin="normal"
+                        variant="outlined"
+                        onChange={e => this.handleChange(e.target)}
+                    />
+                </form>
                 <Button
                     onClick={e => this.submit(e)}
                     color="primary"

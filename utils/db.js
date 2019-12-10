@@ -77,3 +77,9 @@ exports.getFriendsAndWannabes = function getFriendsAndWannabes(id) {
         [id]
     );
 };
+
+exports.getLastTenChatMessages = function getLastTenChatMessages() {
+    return db.query(
+        "SELECT chatroom.message, chatroom.created_at, users.id, users.image_url, users.first, users.last FROM chatroom JOIN users ON (chatroom.user_id = users.id) LIMIT 10 "
+    );
+};

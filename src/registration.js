@@ -55,7 +55,7 @@ export default class Registration extends React.Component {
                 {this.state.error && (
                     <div className="error">Oops! Something went wrong.</div>
                 )}
-                <form>
+                <div className="flex">
                     <TextField
                         required
                         label="First Name"
@@ -93,15 +93,14 @@ export default class Registration extends React.Component {
                         variant="outlined"
                         onChange={e => this.handleChange(e.target)}
                     />
-
-                    <Button
-                        onClick={e => this.submit(e)}
-                        color="primary"
-                        variant="contained"
-                    >
-                        SUBMIT
-                    </Button>
-                </form>
+                </div>
+                <Button
+                    onClick={e => this.submit(e)}
+                    color="primary"
+                    variant="contained"
+                >
+                    SUBMIT
+                </Button>
                 <div>
                     <Typography variant="subtitle1">
                         Already registered?

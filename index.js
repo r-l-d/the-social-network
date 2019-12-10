@@ -11,6 +11,8 @@ const uidSafe = require("uid-safe");
 const path = require("path");
 const s3 = require("./s3");
 const { s3Url } = require("./config");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 
 const diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -34,12 +36,15 @@ app.use(compression());
 app.use(express.static("./public"));
 app.use(express.json());
 
-app.use(
-    cookieSession({
-        secret: `SPICY food is the best`,
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -254,6 +259,35 @@ app.get("*", function(req, res) {
     }
 });
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening.");
+});
+
+io.on("connection", function(socket) {
+    console.log(`socket with the id ${socket.id} is now connected`);
+
+    socket.on("disconnect", function() {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
+
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+
+    //make a db query to get last 10 chat chatMessages
+    db.getLastTenChatMessages().then(data => {
+        console.log("last 10 chat messages: ", data.rows);
+        io.sockets.emit("chatMessages", data.rows);
+    });
+
+    socket.on("New Message", msg => {
+        console.log("msg on server: ", msg);
+        console.log("userId: ", userId);
+        //we need to look up info about the user
+        //then add it to the database
+        //then emit this object out to everyone
+        io.sockets.emit("muffin", msg);
+    });
 });

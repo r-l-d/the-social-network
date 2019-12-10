@@ -16,6 +16,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Friends from "./friends";
+import { Chat } from "./chat";
 
 export default class App extends React.Component {
     constructor() {
@@ -103,6 +104,7 @@ export default class App extends React.Component {
                             )}
                         />
                         <Route path="/users" render={() => <FindPeople />} />
+                        <Route exact path="/chat" component={Chat} />
                         <Route
                             path="/user/:id"
                             render={props => (
@@ -116,6 +118,7 @@ export default class App extends React.Component {
                         <Route path="/friends" render={() => <Friends />} />
                     </div>
                 </BrowserRouter>
+
                 {this.state.uploaderIsVisible && (
                     <Dialog open={open}>
                         <Uploader

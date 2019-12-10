@@ -29,3 +29,10 @@ export async function unfriend(id) {
         id
     };
 }
+
+export async function chatMessages(msgs) {
+    return {
+        type: "GET_MESSAGES",
+        msgs
+    };
+}
