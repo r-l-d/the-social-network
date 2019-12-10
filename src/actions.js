@@ -37,9 +37,10 @@ export async function chatMessages(msgs) {
     };
 }
 
-export async function chatMessage(msg) {
+export async function chatMessage(newMsg) {
+    console.log("chatmessage in actions: ", newMsg);
     return {
         type: "NEW_MESSAGE",
-        msg
+        newMsg
     };
 }

@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     },
     link: {
         underline: "none",
-        margin: 15
+        margin: 10
     },
     menu: {
         display: "flex",
@@ -78,12 +78,27 @@ export default function MenuAppBar(props) {
                                     <Link
                                         color="inherit"
                                         underline="none"
+                                        href="/chat"
+                                    >
+                                        Chat
+                                    </Link>
+                                </Typography>
+                                <Typography
+                                    className={classes.link}
+                                    variant="h6"
+                                >
+                                    <Link
+                                        color="inherit"
+                                        underline="none"
                                         href="/friends"
                                     >
                                         Friends
                                     </Link>
                                 </Typography>
-                                <Typography variant="h6">
+                                <Typography
+                                    className={classes.link}
+                                    variant="h6"
+                                >
                                     <Link
                                         color="inherit"
                                         underline="none"

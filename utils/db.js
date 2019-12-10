@@ -85,8 +85,8 @@ exports.getLastTenChatMessages = function getLastTenChatMessages() {
 };
 
 exports.addMessage = function addMessage(message, user_id) {
-    return db.query("INSERT INTO chatroom(message, user_id) VALUES($1, $2)", [
-        message,
-        user_id
-    ]);
+    return db.query(
+        "INSERT INTO chatroom(message, user_id) VALUES($1, $2) RETURNING id, created_at",
+        [message, user_id]
+    );
 };

@@ -285,13 +285,33 @@ io.on("connection", function(socket) {
     socket.on("New Message", msg => {
         console.log("msg on server: ", msg);
         console.log("userId: ", userId);
-        db.addMessage(msg, userId).then(data => {
-            console.log("data back from new msg: ", data);
-        });
-
+        let newMsg = {
+            message: msg,
+            id: userId
+        };
+        db.addMessage(msg, userId)
+            .then(({ rows }) => {
+                // console.log("data back from new msg: ", rows);
+                newMsg.msg_id = rows[0].id;
+                newMsg.created_at = rows[0].created_at;
+                db.getUser(userId)
+                    .then(({ rows }) => {
+                        console.log("rows from getuser: ", rows);
+                        newMsg.first = rows[0].first;
+                        newMsg.last = rows[0].last;
+                        newMsg.image_url = rows[0].image_url;
+                        console.log("newMsg: ", newMsg);
+                        io.sockets.emit("chatMessage", newMsg);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            })
+            .catch(err => {
+                console.log(err);
+            });
         //we need to look up info about the user
         //then add it to the database
         //then emit this object out to everyone
-        io.sockets.emit("chatMessage", msg);
     });
 });

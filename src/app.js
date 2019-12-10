@@ -31,7 +31,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log("app has mounted");
+        // console.log("app has mounted");
         axios
             .get("/user.json")
             .then(({ data }) => {
@@ -42,7 +42,7 @@ export default class App extends React.Component {
                     imgUrl: data.image_url,
                     bio: data.bio
                 });
-                console.log("this.state: ", this.state);
+                // console.log("this.state: ", this.state);
             })
             .catch(err => {
                 console.log(err);
