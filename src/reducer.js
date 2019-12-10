@@ -42,6 +42,13 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "NEW_MESSAGE") {
+        state = {
+            ...state,
+            chatMessages: state.chatMessages.concat(action.msg)
+        };
+    }
+
     console.log("state after reducer: ", state);
     return state;
 }

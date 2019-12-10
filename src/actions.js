@@ -36,3 +36,10 @@ export async function chatMessages(msgs) {
         msgs
     };
 }
+
+export async function chatMessage(msg) {
+    return {
+        type: "NEW_MESSAGE",
+        msg
+    };
+}

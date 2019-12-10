@@ -279,15 +279,19 @@ io.on("connection", function(socket) {
     //make a db query to get last 10 chat chatMessages
     db.getLastTenChatMessages().then(data => {
         console.log("last 10 chat messages: ", data.rows);
-        io.sockets.emit("chatMessages", data.rows);
+        io.sockets.emit("chatMessages", data.rows.reverse());
     });
 
     socket.on("New Message", msg => {
         console.log("msg on server: ", msg);
         console.log("userId: ", userId);
+        db.addMessage(msg, userId).then(data => {
+            console.log("data back from new msg: ", data);
+        });
+
         //we need to look up info about the user
         //then add it to the database
         //then emit this object out to everyone
-        io.sockets.emit("muffin", msg);
+        io.sockets.emit("chatMessage", msg);
     });
 });

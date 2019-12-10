@@ -80,6 +80,13 @@ exports.getFriendsAndWannabes = function getFriendsAndWannabes(id) {
 
 exports.getLastTenChatMessages = function getLastTenChatMessages() {
     return db.query(
-        "SELECT chatroom.message, chatroom.created_at, users.id, users.image_url, users.first, users.last FROM chatroom JOIN users ON (chatroom.user_id = users.id) LIMIT 10 "
+        "SELECT chatroom.id AS msg_id, chatroom.message, chatroom.created_at, users.id, users.image_url, users.first, users.last FROM chatroom JOIN users ON (chatroom.user_id = users.id) ORDER BY chatroom.id DESC LIMIT 10  "
     );
+};
+
+exports.addMessage = function addMessage(message, user_id) {
+    return db.query("INSERT INTO chatroom(message, user_id) VALUES($1, $2)", [
+        message,
+        user_id
+    ]);
 };

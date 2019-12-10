@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { socket } from "./socket";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
     image: {
@@ -40,7 +41,7 @@ export function Chat() {
             <h1>Chat Room</h1>
             <div className="chat-container" ref={elemRef}>
                 {chatMessages.map(msg => (
-                    <div key={msg.id}>
+                    <div key={msg.msg_id}>
                         <img className={classes.image} src={msg.image_url} />
                         {msg.first} {msg.last}
                         {msg.message}

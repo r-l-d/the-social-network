@@ -30,7 +30,7 @@ INSERT INTO chatroom (message, user_id)
 VALUES ('What is the best code academy in Berlin?', 6);
 
 INSERT INTO chatroom (message, user_id)
-VALUES ('Hmm...', 6);
+VALUES ('Hmm...', 11);
 
 INSERT INTO chatroom (message, user_id)
 VALUES ('My friend told me about one.. I think it is called Spicy School or something', 7);

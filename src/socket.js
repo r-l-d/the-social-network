@@ -17,6 +17,9 @@ export const init = store => {
             store.dispatch(chatMessages(msgs));
         });
 
-        socket.on("chatMessage", msg => store.dispatch(chatMessage(msg)));
+        socket.on("chatMessage", msg => {
+            console.log("chatMessage in Socket.js: ", msg);
+            store.dispatch(chatMessage(msg));
+        });
     }
 };
