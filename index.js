@@ -263,6 +263,8 @@ server.listen(8080, function() {
     console.log("I'm listening.");
 });
 
+const onlineUsers = {};
+
 io.on("connection", function(socket) {
     console.log(`socket with the id ${socket.id} is now connected`);
 
@@ -275,6 +277,12 @@ io.on("connection", function(socket) {
     }
 
     const userId = socket.request.session.userId;
+
+    onlineUsers[socket.id] = userId;
+
+    socket.on("disconnect", () => {
+        delete onlineUsers[socket.id];
+    });
 
     //make a db query to get last 10 chat chatMessages
     db.getLastTenChatMessages().then(data => {
