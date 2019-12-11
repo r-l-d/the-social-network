@@ -268,31 +268,42 @@ const onlineUsers = {};
 io.on("connection", function(socket) {
     console.log(`socket with the id ${socket.id} is now connected`);
 
-    socket.on("disconnect", function() {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
-    });
-
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
 
     const userId = socket.request.session.userId;
+    console.log("userId: ", userId);
 
     onlineUsers[socket.id] = userId;
+    // console.log("userId after socket.id: ", userId);
+    console.log("onlineUsers: ", onlineUsers);
 
-    socket.on("disconnect", () => {
+    socket.on("New Friend Request", request => {
+        console.log("new friend request in index.js for id: ", request);
+        for (const socketId in onlineUsers) {
+            console.log("id is: ", onlineUsers[socketId]);
+            if (onlineUsers[socketId] == request) {
+                console.log("this user is online: ", onlineUsers[socketId]);
+                io.to(socketId).emit("friendRequest", true);
+            }
+        }
+    });
+
+    socket.on("disconnect", function() {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
         delete onlineUsers[socket.id];
     });
 
     //make a db query to get last 10 chat chatMessages
     db.getLastTenChatMessages().then(data => {
-        console.log("last 10 chat messages: ", data.rows);
+        // console.log("last 10 chat messages: ", data.rows);
         io.sockets.emit("chatMessages", data.rows.reverse());
     });
 
     socket.on("New Message", msg => {
-        console.log("msg on server: ", msg);
-        console.log("userId: ", userId);
+        // console.log("msg on server: ", msg);
+        // console.log("userId: ", userId);
         let newMsg = {
             message: msg,
             id: userId
@@ -304,11 +315,11 @@ io.on("connection", function(socket) {
                 newMsg.created_at = rows[0].created_at;
                 db.getUser(userId)
                     .then(({ rows }) => {
-                        console.log("rows from getuser: ", rows);
+                        // console.log("rows from getuser: ", rows);
                         newMsg.first = rows[0].first;
                         newMsg.last = rows[0].last;
                         newMsg.image_url = rows[0].image_url;
-                        console.log("newMsg: ", newMsg);
+                        // console.log("newMsg: ", newMsg);
                         io.sockets.emit("chatMessage", newMsg);
                     })
                     .catch(err => {
@@ -318,8 +329,5 @@ io.on("connection", function(socket) {
             .catch(err => {
                 console.log(err);
             });
-        //we need to look up info about the user
-        //then add it to the database
-        //then emit this object out to everyone
     });
 });

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 import Button from "@material-ui/core/Button";
+import { socket } from "./socket";
 
 export default function Friendshipbutton({ otherId }) {
-    const [buttonText, setButtonText] = useState("here is the button text");
+    const [buttonText, setButtonText] = useState();
 
     useEffect(() => {
         axios.get(`/friendshipstatus/${otherId}`).then(resp => {
@@ -19,6 +20,10 @@ export default function Friendshipbutton({ otherId }) {
             })
             .then(resp => {
                 setButtonText(resp.data.buttonText);
+                if (resp.data.buttonText == "Cancel Friend Request") {
+                    console.log("new friend request received for: ", otherId);
+                    socket.emit("New Friend Request", otherId);
+                }
             });
     }
 

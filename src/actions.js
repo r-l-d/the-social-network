@@ -44,3 +44,11 @@ export async function chatMessage(newMsg) {
         newMsg
     };
 }
+
+export async function friendRequest(request) {
+    console.log("friendRequest in actions: ", request);
+    return {
+        type: "FRIEND_REQUEST",
+        request
+    };
+}

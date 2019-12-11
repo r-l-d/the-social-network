@@ -39,7 +39,7 @@ exports.getUsers = function getUsers(val) {
 
 exports.newUsers = function newUsers() {
     return db.query(
-        "SELECT first, last, id, bio, image_url FROM users ORDER BY id DESC LIMIT 3"
+        "SELECT first, last, id, bio, image_url FROM users ORDER BY id DESC LIMIT 6"
     );
 };
 

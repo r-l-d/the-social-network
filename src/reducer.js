@@ -50,6 +50,14 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "FRIEND_REQUEST") {
+        console.log("Friend Request in reducer: ", action.request);
+        state = {
+            ...state,
+            newRequest: action.request
+        };
+    }
+
     // console.log("state after reducer: ", state);
     return state;
 }

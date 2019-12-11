@@ -66,7 +66,7 @@ export default function Friends() {
                 {!!wannabes.length && (
                     <div>
                         <Typography className={classes.typography} variant="h4">
-                            Friend Requests
+                            Friend Requests ({wannabes.length})
                         </Typography>
                         <Box display="flex" flexWrap="wrap">
                             {wannabes.map(wannabe => (
@@ -116,7 +116,7 @@ export default function Friends() {
 
                 <div>
                     <Typography className={classes.typography} variant="h4">
-                        Friends
+                        Friends ({friends.length})
                     </Typography>
                     <Box display="flex" flexWrap="wrap">
                         {friends.map(friend => (
