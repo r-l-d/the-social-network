@@ -52,3 +52,13 @@ export async function friendRequest(request) {
         request
     };
 }
+
+export async function getOtherFriends(id) {
+    console.log("getotherFriends in Actions. ID: ", id);
+    const { data } = await axios.get("/other-friends/" + id);
+
+    return {
+        type: "OTHER_FRIENDS",
+        otherFriends: data
+    };
+}

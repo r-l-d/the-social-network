@@ -251,6 +251,26 @@ app.get("/friends-wannabes", async (req, res) => {
     }
 });
 
+app.get("/other-friends/:id", async (req, res) => {
+    try {
+        const otherId = req.params.id;
+        const id = req.session.userId;
+        console.log("otherfriends in index.js. id: ", id);
+        let friends = await db.getFriendship(otherId, id);
+        console.log("friends: ", friends.rows);
+
+        if (friends.rows.length == 0 || friends.rows[0].accepted == false) {
+            res.json("");
+        } else {
+            let { rows } = await db.getFriendsAndWannabes(otherId);
+            console.log("otherfriends in index.js. data: ", rows);
+            res.json(rows);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

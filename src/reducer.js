@@ -58,6 +58,14 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "OTHER_FRIENDS") {
+        console.log("otherfriends data in reducer: ", action.otherfriends);
+        state = {
+            ...state,
+            otherFriends: action.otherFriends
+        };
+    }
+
     // console.log("state after reducer: ", state);
     return state;
 }

@@ -16,9 +16,33 @@ a:link {
 
 .flex {
     display: flex;
+    flex-direction: column;
+    max-width: 30%;
 }
-/* 
+/*
 .chat-container {
     height: 600px;
     overflow-y: scroll;
 } */
+
+.otherProfileBox {
+    margin: 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.otherProfileContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.otherProfilePic {
+    height: 200px;
+    max-width: 200px;
+    margin-top: 20px;
+}
+
+.textfield {
+    margin: 10px;
+}
