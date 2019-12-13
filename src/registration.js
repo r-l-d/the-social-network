@@ -53,8 +53,10 @@ export default class Registration extends React.Component {
         return (
             <div>
                 <MenuAppBar />
-                <Container maxWidth="md">
-                    <Typography variant="h4">Register</Typography>
+                <Container maxWidth="lg">
+                    <Typography className="title1" variant="h4">
+                        Register
+                    </Typography>
 
                     {this.state.error && (
                         <div className="error">Oops! Something went wrong.</div>

@@ -73,7 +73,7 @@ export function Chat() {
     return (
         <div>
             <Container maxWidth="m">
-                <Typography variant="h3">Chat Room</Typography>
+                <Typography variant="h4">Chat Room</Typography>
 
                 <div ref={elemRef} className={classes.chatContainer}>
                     {chatMessages &&

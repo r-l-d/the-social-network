@@ -45,7 +45,9 @@ export default class Login extends React.Component {
             <div>
                 <MenuAppBar />
                 <Container maxWidth="md">
-                    <Typography variant="h4">Login</Typography>
+                    <Typography className="title1" variant="h4">
+                        Login
+                    </Typography>
                     {this.state.error && (
                         <div className="error">Oops! Something went wrong.</div>
                     )}
